@@ -390,6 +390,9 @@ make_config! {
 
         /// Invitation organization name |> Name shown in the invitation emails that don't come from a specific organization
         invitation_org_name:    String, true,   def,    "Vaultwarden".to_string();
+
+        /// After how many days does an user invitation expire?
+        invite_user_valid_days:  i64, true, def,    5;
     },
 
     /// Advanced settings

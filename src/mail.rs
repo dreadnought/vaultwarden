@@ -187,6 +187,7 @@ pub fn send_invite(
     org_user_id: Option<String>,
     org_name: &str,
     invited_by_email: Option<String>,
+    valid_days: &i64,
 ) -> EmptyResult {
     let claims = generate_invite_claims(
         uuid.to_string(),
@@ -194,6 +195,7 @@ pub fn send_invite(
         org_id.clone(),
         org_user_id.clone(),
         invited_by_email,
+        valid_days.clone(),
     );
     let invite_token = encode_jwt(&claims);
 

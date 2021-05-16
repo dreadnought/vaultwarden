@@ -301,7 +301,7 @@ fn invite_user(data: Json<InviteData>, _token: AdminToken, conn: DbConn) -> Json
     // See: https://github.com/rust-lang/rust/issues/31436
     (|| {
         if CONFIG.mail_enabled() {
-            mail::send_invite(&user.email, &user.uuid, None, None, &CONFIG.invitation_org_name(), None)?;
+            mail::send_invite(&user.email, &user.uuid, None, None, &CONFIG.invitation_org_name(), None, &CONFIG.invite_user_valid_days())?;
         } else {
             let invitation = Invitation::new(data.email);
             invitation.save(&conn)?;

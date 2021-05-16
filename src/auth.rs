@@ -132,11 +132,12 @@ pub fn generate_invite_claims(
     org_id: Option<String>,
     user_org_id: Option<String>,
     invited_by_email: Option<String>,
+    valid_days: i64,
 ) -> InviteJwtClaims {
     let time_now = Utc::now().naive_utc();
     InviteJwtClaims {
         nbf: time_now.timestamp(),
-        exp: (time_now + Duration::days(5)).timestamp(),
+        exp: (time_now + Duration::days(valid_days)).timestamp(),
         iss: JWT_INVITE_ISSUER.to_string(),
         sub: uuid,
         email,

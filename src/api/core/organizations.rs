@@ -558,6 +558,7 @@ fn send_invite(org_id: String, data: JsonUpcase<InviteData>, headers: AdminHeade
                 Some(org) => org.name,
                 None => err!("Error looking up organization"),
             };
+            let invitation_valid_days : i64 = 5;
 
             mail::send_invite(
                 &email,
@@ -566,6 +567,7 @@ fn send_invite(org_id: String, data: JsonUpcase<InviteData>, headers: AdminHeade
                 Some(new_user.uuid),
                 &org_name,
                 Some(headers.user.email.clone()),
+                &invitation_valid_days,
             )?;
         }
     }
@@ -601,6 +603,7 @@ fn reinvite_user(org_id: String, user_org: String, headers: AdminHeaders, conn: 
         Some(org) => org.name,
         None => err!("Error looking up organization."),
     };
+    let invitation_valid_days : i64 = 5;
 
     if CONFIG.mail_enabled() {
         mail::send_invite(
@@ -610,6 +613,7 @@ fn reinvite_user(org_id: String, user_org: String, headers: AdminHeaders, conn: 
             Some(user_org.uuid),
             &org_name,
             Some(headers.user.email),
+            &invitation_valid_days,
         )?;
     } else {
         let invitation = Invitation::new(user.email);
@@ -1147,6 +1151,7 @@ fn import(org_id: String, data: JsonUpcase<OrgImportData>, headers: Headers, con
                         Some(org) => org.name,
                         None => err!("Error looking up organization"),
                     };
+                    let invitation_valid_days : i64 = 5;
 
                     mail::send_invite(
                         &user_data.Email,
@@ -1155,6 +1160,7 @@ fn import(org_id: String, data: JsonUpcase<OrgImportData>, headers: Headers, con
                         Some(new_org_user.uuid),
                         &org_name,
                         Some(headers.user.email.clone()),
+                        &invitation_valid_days,
                     )?;
                 }
             }
